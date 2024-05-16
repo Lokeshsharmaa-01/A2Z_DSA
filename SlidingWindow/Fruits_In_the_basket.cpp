@@ -30,6 +30,8 @@ int maxlength(int arr[]){
 int maxlength(int arr[]){
     int l = 0;
     int r = 0;
+    int n = arr.size();
+    int maxlen = 0;
     unordered_map<int,int> mpp;
     while (r<n)
     {
@@ -37,7 +39,7 @@ int maxlength(int arr[]){
         if (mpp.size() > 2)
         {
             while(mpp.size() > 2){
-                mpp[arr[i]]--;
+                mpp[arr[r]]--;
                 if(mpp[arr[l]] == 0) mpp.erase(arr[l]);
                 l++;
             }
@@ -50,4 +52,35 @@ int maxlength(int arr[]){
     }
     return maxlen;
     
+}
+
+// Optimal approch
+
+// in this approch we don't use inner while loop for trimming window
+// insted of while we just remove only one element from it
+
+int maxlength(int arr[]){
+    int l = 0;
+    int r = 0;
+    int maxlen = 0;
+    int n = arr.size();
+    unordered_map<int,int> mpp;
+    while(r<n){
+        mpp[arr[r]]++;
+        if(mpp.size() > 2){
+            mpp[arr[l]]--;
+            if (mpp[arr[l]] == 0)
+            {
+                mpp.erase(arr[l]);
+            }
+            l++;
+        }
+        if (mpp.size() <=2)
+        {
+            maxlen = max(maxlen,r-l+1);
+        }
+        r++;
+        
+    }
+    return maxlen;
 }
